@@ -48,6 +48,7 @@ private slots:
   void JavaScriptWindowObjectCleared();
   void Timeout();
   void Delayed();
+  void handleSslErrors(QNetworkReply* reply, QList<QSslError> errors);
 
 private:
   void TryDelayedRender();

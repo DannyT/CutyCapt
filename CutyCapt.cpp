@@ -165,9 +165,19 @@ CutyCapt::CutyCapt(CutyPage* page, const QString& output, int delay, OutputForma
   mScriptCode = scriptCode;
   mScriptObj = new QObject();
 
+  // Ignore SSL errors
+  QNetworkAccessManager* mManager = mPage->networkAccessManager();
+  connect(mManager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
+            this, SLOT(handleSslErrors(QNetworkReply*,QList<QSslError>)));
+
   // This is not really nice, but some restructuring work is
   // needed anyway, so this should not be that bad for now.
   mPage->setCutyCapt(this);
+}
+
+void
+CutyCapt::handleSslErrors(QNetworkReply* reply, QList<QSslError> errors) {
+    reply->ignoreSslErrors();
 }
 
 void
